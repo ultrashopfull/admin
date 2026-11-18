@@ -1,0 +1,78 @@
+ULTRASHOP — PANEL ACTUALIZADO, VERSIÓN 8
+
+Extrae todo el ZIP conservando las carpetas.
+Para activar la sincronización completa lee primero ACTIVAR_SINCRONIZACION.txt.
+La web detecta si el servidor todavía usa la API anterior: vuelve a cargar
+clientes y cuentas sin el error «Acción no implementada: panel_sync».
+Para sincronizar TODOS los apartados necesitas también el SQL y las funciones
+del servidor incluidos. Los cambios que la API anterior no admite muestran
+un aviso; no se presentan como guardados.
+
+Se conserva el diseño, la tipografía, los temas, animaciones y carga progresiva.
+Los cambios confirmados en la base actualizan las vistas del panel.
+La sincronización y los controles de errores están en js/15-sync-actions.js.
+La compatibilidad con el servidor anterior está en js/16-compat-sync.js.
+La API existente y su ADMIN_TOKEN se conservan; se añaden rutas de sincronización.
+
+ABRIR LOCALMENTE
+  python -m http.server 8000
+  Después abre http://localhost:8000
+Sin configurar Supabase funciona el modo de demostración local existente.
+Usuario de demostración local: victor1234 / contraseña: 1234.
+Con la API anterior puedes seguir usando el administrador local original:
+se conserva su usuario y su contraseña, y se comprueba el ADMIN_TOKEN contra
+el servidor antes de entrar. No se permite entrar por esa vía si el servidor
+no responde o rechaza el token. No se recuperan contraseñas del personal.
+Con el servidor actualizado se usan las credenciales reales de la tabla usuarios.
+
+MODIFICAR LOS ESTILOS
+Edita css/styles.css y ejecuta:
+  python3 tools/generar_estilos.py
+  python3 tools/versionar_recursos.py
+Se regeneran panel.css, statistics.css y el bloque de marca de index.html.
+El segundo comando cambia las referencias de recursos para evitar mezclar
+archivos antiguos guardados en la caché con una versión nueva.
+
+Los scripts clásicos comparten variables; conserva su orden en index.html.
+assets/ conserva imágenes y fuentes; vendor/ocr/ conserva el lector local.
+La huella y el portapapeles dependen de los permisos del navegador.
+
+BOTONES DE LOS MODALES — VERSIÓN 8
+Los resultados y errores se muestran también dentro del modal. Mientras se
+procesa una acción aparece Guardando/Eliminando; al terminar se liberan los
+botones. Las consultas que no responden dejan de bloquear el panel después
+de 30 segundos. Un timeout no confirma ni deshace una escritura: hay que
+actualizar para verificar el resultado antes de repetir una acción antigua.
+
+La URL puede ser la del proyecto, Functions o /functions/v1/admin; el panel
+la normaliza automáticamente. Publica TODOS los recursos y después index.html.
+Los botones que necesitan operaciones nuevas del servidor siguen necesitando
+ACTIVAR_SINCRONIZACION.txt. Un aviso visible no sustituye ese despliegue.
+
+ACTUALIZACIÓN: CONTRASEÑAS EN CLIENTES
+Columna después de Usuario, con ojo y ocultación por defecto. Las contraseñas remotas existentes no son recuperables desde su hash: muestran No disponible. Las creadas en esta pestaña se conservan solo en memoria hasta recargar o cerrar sesión, también al sincronizar. No cambia el esquema ni las funciones del servidor. Animaciones de cambios y soporte para movimiento reducido.
+
+INSTALAR EL PANEL COMO APP (PWA)
+Publica también estos archivos nuevos junto a index.html:
+  manifest.webmanifest, sw.js, css/pwa.css, js/19-pwa.js y la carpeta icons/.
+El icono se genera desde logo.png: icons/icon-192.png, icons/icon-512.png y una
+versión maskable para Android. La web debe abrirse por HTTPS (también lo exige
+la huella); en local sirve con:  python -m http.server 8000
+Android/Chrome: menú ⋮ > Instalar aplicación, o el botón «Instalar app en este
+teléfono» de la pantalla de acceso.
+iPhone/iPad: abre el panel en Safari > Compartir > Añadir a pantalla de inicio.
+Después de instalar, inicia sesión una vez y activa la huella dentro de la app.
+
+ACCESO CON HUELLA
+Primero inicia sesión con usuario y contraseña. El panel ofrecerá «Activa la
+huella» al entrar; también puedes hacerlo desde el menú de tu cuenta.
+La huella o el rostro se registran por dispositivo y por cuenta: hay que
+activarlos en cada teléfono. Al entrar con huella, el panel valida de nuevo la
+sesión contra Supabase antes de abrir. Si cambias la contraseña, vuelve a
+activar la huella. Requiere HTTPS y un navegador compatible (Safari en iPhone,
+Chrome en Android).
+En iPhone/iPad, Safari y la app instalada guardan datos separados: activa la
+huella también dentro de la app instalada.
+El acceso con huella es un desbloqueo local: el token de acceso se guarda en
+este dispositivo y se valida contra el servidor en cada entrada. Para cerrar
+la sesión por completo usa «Cerrar sesión».

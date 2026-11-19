@@ -63,7 +63,21 @@ async function saveClientEditor(event) {
   }
   const range = clientEditDuration === "custom" ? getRange("edit") : null;
   if (clientEditDuration === "custom" && !range) return;
-  if(window.panelSync?.connected())return panelRemote("clientEditor",{u,email,phone,days,range,codexEnabled});
+  if(window.panelSync?.connected()){
+    // 1) Flujo remoto original (maneja sync entre pestañas, fechas, etc.)
+    const remotePromise = panelRemote("clientEditor",{u,email,phone,days,range,codexEnabled});
+
+    // 2) 🆕 Fallback: garantizar que codex_enabled se persista en Supabase
+    //    independientemente de lo que haga panelRemote con él.
+    if (u._clientId && typeof window.sbConfigured === "function" && window.sbConfigured()) {
+      window.sbApi("editar_cliente", "POST", {
+        cliente_id: u._clientId,
+        codex_enabled: codexEnabled,
+      }).catch((e) => console.warn('[GPT codex] update fallback:', e?.message || e));
+    }
+
+    return remotePromise;
+  }
   if (typeof window.sbConfigured === "function" && window.sbConfigured() && u._clientId && !u.isTrial) {
     rowActionBusy = true;
     try {
@@ -73,7 +87,7 @@ async function saveClientEditor(event) {
         usuario: email,
         telefono: phone,
         producto: productKey,
-        codex_enabled: codexEnabled,          // ✅ NUEVO — flag hacia Supabase
+        codex_enabled: codexEnabled,          // ✅ flag hacia Supabase
       };
       if (range) {
         payload.dias = Math.max(0, Math.ceil((range.end - Date.now()) / 86400000));
@@ -98,7 +112,7 @@ async function saveClientEditor(event) {
   rowActionBusy = true;
   u.email = email;
   u.phone = phone;
-  u.codexEnabled = codexEnabled;                  // ✅ NUEVO — coherencia local (modo demo)
+  u.codexEnabled = codexEnabled;                  // ✅ coherencia local (modo demo)
   const previous = u.isTrial ? Math.ceil((getTimeLeft(u) || 0) / 60000) : getDaysLeft(u);
   if (range) {
     Object.assign(u, {

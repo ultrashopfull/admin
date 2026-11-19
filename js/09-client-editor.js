@@ -63,17 +63,58 @@ async function saveClientEditor(event) {
   }
   const range = clientEditDuration === "custom" ? getRange("edit") : null;
   if (clientEditDuration === "custom" && !range) return;
-  if(window.panelSync?.connected()){
-    // 1) Flujo remoto original (maneja sync entre pestañas, fechas, etc.)
-    const remotePromise = panelRemote("clientEditor",{u,email,phone,days,range,codexEnabled});
 
-    // 2) 🆕 Fallback: garantizar que codex_enabled se persista en Supabase
-    //    independientemente de lo que haga panelRemote con él.
-    if (u._clientId && typeof window.sbConfigured === "function" && window.sbConfigured()) {
+  // 🔍 DEBUG
+  console.log('[codex-debug] saveClientEditor firing', {
+    connected: window.panelSync?.connected?.(),
+    clientId: u._clientId,
+    hasClientId: !!u._clientId,
+    uKeys: Object.keys(u || {}),
+    sbConfigured: window.sbConfigured?.(),
+    hasToken: !!window.sbGetStaffToken?.(),
+    codexEnabled,
+    days,
+    range: !!range,
+  });
+
+  if(window.panelSync?.connected()){
+    let remotePromise;
+    try {
+      remotePromise = panelRemote("clientEditor",{u,email,phone,days,range,codexEnabled});
+      console.log('[codex-debug] panelRemote iniciado', remotePromise);
+    } catch (e) {
+      console.error('[codex-debug] panelRemote lanzó síncronamente', e);
+      throw e;
+    }
+
+    const clientId =
+      u._clientId ||
+      u.id ||
+      u.cliente_id ||
+      datasets[license]?.[index]?._clientId ||
+      panelSync.targets.get("clientEditor")?._clientId;
+
+    const sbReady = typeof window.sbConfigured === "function" && window.sbConfigured();
+
+    console.log('[codex-debug] pre-fallback', {
+      clientId,
+      sbReady,
+      hasToken: !!window.sbGetStaffToken?.(),
+      uKeys: Object.keys(u || {}),
+      fromPanelSync: panelSync.targets.get("clientEditor")?._clientId,
+      fromDatasets: datasets[license]?.[index]?._clientId,
+    });
+
+    if (clientId && sbReady) {
       window.sbApi("editar_cliente", "POST", {
-        cliente_id: u._clientId,
+        cliente_id: Number(clientId),
         codex_enabled: codexEnabled,
-      }).catch((e) => console.warn('[GPT codex] update fallback:', e?.message || e));
+      })
+        .then((r) => console.log('[codex-debug] ✅ fallback OK', r))
+        .catch((e) => console.error('[codex-debug] ❌ fallback FAIL:', e?.message || e));
+    } else {
+      console.warn('[codex-debug] ⚠️ fallback OMITIDO',
+        !clientId ? '(sin client_id)' : '(sb no configurado)');
     }
 
     return remotePromise;
@@ -87,7 +128,7 @@ async function saveClientEditor(event) {
         usuario: email,
         telefono: phone,
         producto: productKey,
-        codex_enabled: codexEnabled,          // ✅ flag hacia Supabase
+        codex_enabled: codexEnabled,
       };
       if (range) {
         payload.dias = Math.max(0, Math.ceil((range.end - Date.now()) / 86400000));
@@ -112,7 +153,7 @@ async function saveClientEditor(event) {
   rowActionBusy = true;
   u.email = email;
   u.phone = phone;
-  u.codexEnabled = codexEnabled;                  // ✅ coherencia local (modo demo)
+  u.codexEnabled = codexEnabled;
   const previous = u.isTrial ? Math.ceil((getTimeLeft(u) || 0) / 60000) : getDaysLeft(u);
   if (range) {
     Object.assign(u, {

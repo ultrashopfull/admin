@@ -291,6 +291,7 @@ function sbApplyClients(clients) {
         expiresAt: c.fecha_vencimiento || null,
         isTrial: false,
         sessionClosed: false,
+        codexEnabled: c.codex_enabled === true,        // ✅ NUEVO — mapeo del flag
       });
       continue;
     }
@@ -303,7 +304,7 @@ function sbApplyClients(clients) {
         _clientId: c.id,
         _product: p,
         email: c.usuario || c.email || "",
-         password: c.password_text || "", // ✅ NUEVO: Mapear la contraseña
+         password: c.password_text || "", // ✅ Mapear la contraseña
         phone: c.telefono || "",
         device: c.device_label || "Pendiente",
         status: sbMapStatus(c.estado_cliente),
@@ -316,6 +317,7 @@ function sbApplyClients(clients) {
         expiresAt: c.fecha_vencimiento || null,
         isTrial: false,
         sessionClosed: false,
+        codexEnabled: c.codex_enabled === true,        // ✅ NUEVO — mapeo del flag
       });
     }
   }

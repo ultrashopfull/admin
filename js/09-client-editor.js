@@ -73,6 +73,7 @@ async function saveClientEditor(event) {
         usuario: email,
         telefono: phone,
         producto: productKey,
+        codex_enabled: codexEnabled,          // ✅ NUEVO — flag hacia Supabase
       };
       if (range) {
         payload.dias = Math.max(0, Math.ceil((range.end - Date.now()) / 86400000));
@@ -97,6 +98,7 @@ async function saveClientEditor(event) {
   rowActionBusy = true;
   u.email = email;
   u.phone = phone;
+  u.codexEnabled = codexEnabled;                  // ✅ NUEVO — coherencia local (modo demo)
   const previous = u.isTrial ? Math.ceil((getTimeLeft(u) || 0) / 60000) : getDaysLeft(u);
   if (range) {
     Object.assign(u, {

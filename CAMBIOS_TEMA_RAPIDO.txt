@@ -1,0 +1,8 @@
+ULTRASHOP — CAMBIO INSTANTÁNEO DE TEMA
+- El botón claro/oscuro aplica el tema en el mismo clic, sin esperar la red.
+- Elimina la animación de captura/revelado de pantalla completa únicamente del cambio de tema. Mantiene diseño, colores, iconos y otras animaciones.
+- Guarda localmente la elección y sincroniza la última preferencia por usuario con la operación existente preference.save (agrupa clics de 180 ms).
+- Ignora lecturas de tema anteriores mientras hay una preferencia pendiente. Si falla la red, conserva la elección local durante la sesión; reintenta con otro clic o al reconectar. No se garantiza persistencia remota sin respuesta exitosa del servidor.
+- La API antigua solo permite preferencia local. No se necesitan cambios SQL ni Edge Functions adicionales para esta mejora.
+- Conserva la actualización de la plantilla global de mensajes incluida anteriormente. Si no se instaló su SQL previo, sigue CAMBIOS_MENSAJE_ACCESO.txt.
+- Publica todos los archivos (index.html al final) y recarga. Caché PWA actualizada.

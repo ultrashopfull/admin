@@ -1,0 +1,46 @@
+CAMBIOS EN LA SECCION USUARIOS (vendedores)
+============================================
+
+1. Que se corrigio en el codigo
+- El backend (Edge Function admin) ya permite el acceso de vendedores para
+  staff_login, panel_sync, panel_operation, profile.save y client.* licenciados.
+  Antes rechazaba a todo no-admin con "Se requiere rol admin".
+- Las contrasenas creadas desde ahora se guardan tambien en password_text y se
+  muestran/copian solo para administradores (ojo + copiar en la tabla).
+- El snapshot del panel se filtra por licencias del vendedor: solo ve sus
+  licencias, cuentas, suscripciones, clientes, trabajos y su propio usuario.
+- El login devuelve rol, nombre completo, licencias (nombres mostrables) y
+  estado activo; los usuarios suspendidos no pueden entrar.
+- El panel cliente recuerda la contrasena del vendedor/admin en memoria y
+  la recupera tras sincronizar, por eso el ojo/copy sigue funcionando.
+- Se agrego el ojo en el campo Contrasena del modal de usuario.
+
+2. Despliegue obligatorio (sin esto el error sigue apareciendo)
+A. Base de datos (Supabase SQL Editor):
+   Ejecuta supabase/setup/sincronizacion_panel.sql (es repetible).
+   Agrega la columna password_text a public.usuarios y la persiste en
+   staff.save, profile.save y client.create.
+
+B. Edge Function admin:
+   Publica supabase/functions/admin/source/index.ts (y admin/index.ts).
+   Sin este paso, staff_login sigue devolviendo "Se requiere rol admin".
+
+C. Frontend (GitHub Pages):
+   Sube los archivos modificados (index.html, js/01-panel.js, js/07-profile.js,
+   js/08-login-motion.js, js/15-sync-actions-migfix.js) y el resto del panel.
+
+3. Contraseñas anteriores
+Las contrasenas creadas antes de esta actualizacion no se pueden recuperar
+(estan guardadas solo como hash). Para ver/copiar la contrasena de un usuario
+antiguo, edita el usuario y escribe una nueva contrasena; desde entonces
+aparecera con el ojo y el boton copiar.
+
+4. Credenciales de prueba
+- admin / 29884305  (administrador)
+- Vende / 1212       (vendedor, requiere los pasos de despliegue)
+
+5. Seguridad
+- Los vendedores solo reciben del servidor las licencias asignadas; no ven
+  licencias, cuentas ni clientes de otros vendedores.
+- Las contrasenas de vendedores no se devuelven al vendedor mismo; solo al
+  administrador.

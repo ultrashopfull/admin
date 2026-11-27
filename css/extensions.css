@@ -1,0 +1,1144 @@
+/* Actualizaciones de extensión · reutiliza las variables del tema del panel */
+
+/* ---------- Sección (dentro del modal Administrador) ---------- */
+.updates-section {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.updates-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.updates-head h3 {
+  font-size: 15px;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.updates-head p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.updates-head code {
+  background: var(--surface);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--ink);
+}
+
+.updates-head .updates-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 30px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 550;
+}
+.updates-head .updates-refresh:hover { background: var(--hover); }
+.updates-head .updates-refresh:active { transform: scale(.96); }
+
+/* ---------- Grid de tarjetas ---------- */
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 14px;
+}
+
+.update-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.update-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 90px;
+  background: radial-gradient(
+    ellipse at 85% 0,
+    color-mix(in srgb, var(--ext-color, var(--accent)) 18%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ---------- Cabecera de la tarjeta ---------- */
+.update-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.update-card-head h4 {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: -0.2px;
+  font-weight: 650;
+}
+.update-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ext-color, var(--accent));
+  flex: none;
+}
+
+.update-badge {
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  padding: 3px 8px;
+  border-radius: 30px;
+  text-transform: uppercase;
+}
+.update-badge.update-ok {
+  background: color-mix(in srgb, var(--ext-color, var(--accent)) 16%, var(--surface));
+  color: color-mix(in srgb, var(--ext-color, var(--accent)) 70%, var(--ink));
+}
+.update-badge.update-missing {
+  background: var(--danger-soft, color-mix(in srgb, var(--danger) 12%, var(--surface)));
+  color: var(--danger);
+}
+
+/* ---------- Metadatos ---------- */
+.update-meta {
+  margin: 0;
+  display: grid;
+  gap: 3px;
+  font-size: 11px;
+}
+.update-meta div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.update-meta dt {
+  color: var(--muted);
+  flex: none;
+}
+.update-meta dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 65%;
+}
+
+/* ---------- Selector de archivo ---------- */
+.update-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--muted);
+  transition: border-color .18s, background-color .18s, color .18s;
+  overflow: hidden;
+}
+.update-file:hover {
+  border-color: var(--ext-color, var(--accent));
+  background: var(--surface);
+  color: var(--ink);
+}
+.update-file.has-file {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--ext-color, var(--accent)) 45%, transparent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ext-color, var(--accent)) 8%, var(--panel));
+}
+.update-file input { display: none; }
+.update-file svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+.update-file span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* ---------- Acciones ---------- */
+.update-actions {
+  display: flex;
+  gap: 6px;
+}
+.update-actions button {
+  flex: 1;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 11px;
+}
+.update-actions .primary-btn,
+.update-actions .danger-btn {
+  border: 0;
+  border-radius: 30px;
+  min-height: 34px;
+}
+.update-actions .danger-btn {
+  flex: 0 0 auto;
+  min-width: 78px;
+}
+
+/* ---------- Modal de reemplazo ---------- */
+.update-replace-dialog .update-warn-lead {
+  font-size: 12px;
+  color: var(--ink);
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+.update-replace-dialog .update-warn-lead strong {
+  color: var(--danger);
+  font-weight: 650;
+}
+
+.update-warn-grid {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.update-warn-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 12px;
+}
+.update-warn-grid > div > span {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.update-warn-grid > div > b {
+  font-weight: 550;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+  font-size: 12px;
+}
+.update-warn-grid > div:first-child > b {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--danger);
+  text-decoration-thickness: 1.5px;
+}
+.update-warn-grid > div:last-child {
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+.update-warn-grid > div:last-child > span { color: var(--accent-text); }
+
+.update-warn-foot {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.update-warn-foot strong {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.update-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 0 0 4px;
+  border-radius: 12px;
+  background: var(--danger-soft, color-mix(in srgb, var(--danger) 10%, var(--surface)));
+  border: 1px solid color-mix(in srgb, var(--danger) 24%, transparent);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  cursor: pointer;
+}
+.update-check input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin: 1px 0 0;
+  border: 1.5px solid var(--danger);
+  border-radius: 4px;
+  background: var(--panel);
+  position: relative;
+  cursor: pointer;
+  transition: background-color .18s, border-color .18s;
+}
+.update-check input:checked {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+.update-check input:checked::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 2px;
+  background: #fff;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+.update-check input:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+}
+
+/* ---------- Fallback flotante cuando no hay settings ---------- */
+.updates-floating {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 30px;
+  background: var(--strong);
+  color: var(--on-strong);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: var(--menu-shadow);
+}
+.updates-floating:hover { opacity: .9; }
+.updates-floating svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .updates-grid { gap: 10px; grid-template-columns: 1fr; }
+  .update-card { padding: 14px; }
+  .update-actions .danger-btn { min-width: 64px; }
+  .updates-floating { right: 14px; bottom: 14px; padding: 0 14px; }
+}
+
+/* ═══════ Barra de progreso de subida ═══════ */
+.update-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ext-color, var(--accent)) 8%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--ext-color, var(--accent)) 28%, transparent);
+  animation: updateProgressIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.update-progress[hidden] { display: none; }
+
+@keyframes updateProgressIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.update-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+.update-progress-label {
+  color: var(--muted);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.update-progress-pct {
+  flex: none;
+  font-weight: 700;
+  color: var(--ext-color, var(--accent));
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.update-progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface);
+  overflow: hidden;
+  position: relative;
+}
+.update-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--ext-color, var(--accent)) 0%,
+    color-mix(in srgb, var(--ext-color, var(--accent)) 70%, #fff) 100%
+  );
+  border-radius: 3px;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.update-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: updateProgressShine 1.4s ease-in-out infinite;
+}
+@keyframes updateProgressShine {
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .update-progress,
+  .update-progress-fill::after {
+    animation: none;
+  }
+  .update-progress-fill { transition: none; }
+}
+
+/* Botón "Subir" cuando hay archivo listo */
+.update-actions .primary-btn.is-ready {
+  background: linear-gradient(
+    135deg,
+    var(--ext-color, var(--accent)) 0%,
+    color-mix(in srgb, var(--ext-color, var(--accent)) 75%, #fff) 100%
+  );
+  color: #fff;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ext-color, var(--accent)) 40%, transparent);
+  animation: updateBtnReady 2s ease-in-out infinite;
+}
+.update-actions .primary-btn.is-ready:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--ext-color, var(--accent)) 50%, transparent);
+}
+@keyframes updateBtnReady {
+  0%, 100% { box-shadow: 0 4px 14px color-mix(in srgb, var(--ext-color, var(--accent)) 40%, transparent); }
+  50%      { box-shadow: 0 4px 20px color-mix(in srgb, var(--ext-color, var(--accent)) 65%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .update-actions .primary-btn.is-ready { animation: none; }
+}
+
+/* ═══════ Badge intermedio (1/2) ═══════ */
+.update-badge.update-partial {
+  background: color-mix(in srgb, var(--warning) 16%, var(--surface));
+  color: var(--warning);
+}
+
+/* ═══════ Grid de 2 slots por tarjeta ═══════ */
+.update-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 560px) {
+  .update-slots { grid-template-columns: 1fr; }
+}
+
+.update-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ext-color, var(--accent)) 5%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--ext-color, var(--accent)) 15%, var(--line));
+}
+
+.update-slot-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.update-slot-icon { font-size: 14px; line-height: 1; }
+.update-slot-title {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.update-slot-status {
+  margin-left: auto;
+  color: var(--ext-color, var(--accent));
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.update-slot-status.is-missing { color: var(--danger); }
+
+.update-slot .update-meta { font-size: 10px; gap: 2px; }
+.update-slot .update-file { padding: 8px 10px; font-size: 10px; gap: 6px; }
+.update-slot .update-file svg { width: 14px; height: 14px; }
+.update-slot .update-actions button { font-size: 10px; min-height: 30px; padding: 0 8px; }
+.update-slot .update-actions .danger-btn { min-width: 0; padding: 0 10px; }
+
+/* Barra de progreso compacta en el slot */
+.update-slot .update-progress { padding: 8px 10px; gap: 6px; }
+.update-slot .update-progress-header { font-size: 10px; }
+.update-slot .update-progress-pct { font-size: 11px; }
+.update-slot .update-progress-bar { height: 5px; }
+
+/* Botón "Subir" cuando hay archivo listo */
+.update-actions .primary-btn.is-ready {
+  background: linear-gradient(
+    135deg,
+    var(--ext-color, var(--accent)) 0%,
+    color-mix(in srgb, var(--ext-color, var(--accent)) 75%, #fff) 100%
+  );
+  color: #fff;
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--ext-color, var(--accent)) 40%, transparent);
+  animation: updateBtnReady 2s ease-in-out infinite;
+}
+@keyframes updateBtnReady {
+  0%, 100% { box-shadow: 0 3px 12px color-mix(in srgb, var(--ext-color, var(--accent)) 35%, transparent); }
+  50%      { box-shadow: 0 3px 18px color-mix(in srgb, var(--ext-color, var(--accent)) 60%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .update-actions .primary-btn.is-ready { animation: none; }
+}
+
+/* ═══════ Fila input + botón cancelar ═══════ */
+.update-file-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+.update-file-row .update-file {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.update-cancel-selection {
+  flex: none;
+  width: 34px;
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s, transform .15s;
+}
+.update-cancel-selection:hover {
+  background: color-mix(in srgb, var(--danger) 12%, var(--panel));
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--line));
+  transform: scale(1.05);
+}
+.update-cancel-selection:active { transform: scale(0.95); }
+.update-cancel-selection[hidden] { display: none; }
+.update-cancel-selection svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ═══════ Icono SVG del slot ═══════ */
+.update-slot-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: var(--ext-color, var(--accent));
+}
+.update-slot-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Ajuste móvil */
+@media (max-width: 560px) {
+  .update-cancel-selection { width: 32px; min-height: 32px; }
+}
+
+/* ═══════════ Botón maestro "Enlaces de clientes" ═══════════ */
+.copy-links-wrap { position: relative; display: inline-flex; flex: none; }
+
+.copy-links-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 12px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .15s;
+}
+.copy-links-btn:hover {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+.copy-links-btn:active { transform: scale(.97); }
+.copy-links-btn[aria-expanded="true"] {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+.copy-links-btn:disabled { opacity: .55; cursor: wait; }
+
+.copy-links-btn svg {
+  width: 15px; height: 15px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.copy-links-btn .copy-links-caret {
+  width: 12px; height: 12px; opacity: .6;
+  transition: transform .2s;
+}
+.copy-links-btn[aria-expanded="true"] .copy-links-caret {
+  transform: rotate(180deg);
+}
+
+.copy-links-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 280px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: var(--menu-shadow, 0 8px 28px #0003);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: copyLinksIn .18s cubic-bezier(.16,1,.3,1);
+}
+.copy-links-menu[hidden] { display: none; }
+
+@keyframes copyLinksIn {
+  from { opacity: 0; transform: translateY(-4px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.copy-links-header {
+  padding: 8px 10px 6px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.copy-links-header strong { color: var(--ink); font-weight: 650; }
+
+.copy-links-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s;
+}
+.copy-links-menu button:hover { background: var(--surface); }
+.copy-links-menu button > span { display: grid; gap: 1px; }
+.copy-links-menu button b { font-size: 12px; font-weight: 600; }
+.copy-links-menu button small { color: var(--muted); font-size: 10px; }
+.copy-links-menu button > small { flex: none; color: var(--muted); font-size: 13px; }
+
+.copy-links-menu .copy-links-sep {
+  height: 1px; margin: 4px 6px; background: var(--line);
+}
+
+@media (max-width: 640px) {
+  .copy-links-btn { height: 36px; padding: 0 10px; font-size: 11px; }
+  .copy-links-btn span { display: none; }
+  .copy-links-btn svg:first-child { width: 17px; height: 17px; }
+  .copy-links-menu { min-width: 240px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-links-menu { animation: none; }
+  .copy-links-btn:active { transform: none; }
+}
+/* ═══════════════════════════════════════════════════════════════════
+   ICONOS DE DISPOSITIVO CORREGIDOS
+   El panel muestra "?" para Mac/iPhone/Android/Pendiente.
+   Los ocultamos y dibujamos el icono correcto con CSS mask.
+   Windows queda intacto (ya funciona).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1) Ocultar los SVGs rotos del panel ── */
+.device:is([data-device="Mac" i], [data-device="macOS" i], [data-device="OSX" i]) .device-mark > svg,
+.device:is([data-device="iPhone" i], [data-device="iPad" i], [data-device="iPod" i]) .device-mark > svg,
+.device:is([data-device="Android" i], [data-device="Tablet" i]) .device-mark > svg,
+.device:is([data-device="Pendiente" i], [data-device="Por detectar" i]) .device-mark > svg {
+  display: none !important;
+}
+
+/* ── 2) Mac (laptop) ── */
+.device:is([data-device="Mac" i], [data-device="macOS" i], [data-device="OSX" i]) .device-mark::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: var(--device-color, #a48dbd);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='4' width='16' height='12' rx='2'/><path d='M2 19h20'/><path d='M2 19l1.5 2h17l1.5-2'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='4' width='16' height='12' rx='2'/><path d='M2 19h20'/><path d='M2 19l1.5 2h17l1.5-2'/></svg>") center/contain no-repeat;
+}
+
+/* ── 3) iPhone / iPad ── */
+.device:is([data-device="iPhone" i], [data-device="iPad" i], [data-device="iPod" i]) .device-mark::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: var(--device-color, #8c96ad);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='2' width='12' height='20' rx='3'/><path d='M10 5h4'/><circle cx='12' cy='18' r='1' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='2' width='12' height='20' rx='3'/><path d='M10 5h4'/><circle cx='12' cy='18' r='1' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+}
+
+/* ── 4) Android ── */
+.device:is([data-device="Android" i], [data-device="Tablet" i]) .device-mark::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: var(--device-color, #51b987);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13h14a7 7 0 0 0-14 0Z'/><path d='M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5'/><path d='m7 5 1.5 2'/><path d='m17 5-1.5 2'/><circle cx='9' cy='10' r='.7' fill='white' stroke='none'/><circle cx='15' cy='10' r='.7' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13h14a7 7 0 0 0-14 0Z'/><path d='M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5'/><path d='m7 5 1.5 2'/><path d='m17 5-1.5 2'/><circle cx='9' cy='10' r='.7' fill='white' stroke='none'/><circle cx='15' cy='10' r='.7' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+}
+
+/* ── 5) Pendiente / Por detectar ── */
+.device:is([data-device="Pendiente" i], [data-device="Por detectar" i]) .device-mark::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: var(--device-color, var(--muted, #888));
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><path d='M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5'/><circle cx='12' cy='18' r='.9' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><path d='M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5'/><circle cx='12' cy='18' r='.9' fill='white' stroke='none'/></svg>") center/contain no-repeat;
+}
+
+/* ── 6) Forzar color visible del icono (por si el panel lo pisa) ── */
+.user-table .device-mark {
+  color: var(--device-color, var(--muted)) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Rediseño: Seleccionar todos (borrado masivo)
+   Sustituye los dos botones viejos por un checkbox maestro con
+   estados checked / indeterminate y contador en vivo.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.bulk-select-all-label{
+  display:inline-flex;align-items:center;gap:9px;
+  min-height:38px;padding:0 13px;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--panel);color:var(--ink);
+  font-size:12px;font-weight:550;
+  cursor:pointer;user-select:none;
+  transition:background-color .15s,border-color .15s;
+}
+.bulk-select-all-label:hover{background:var(--surface);border-color:var(--muted)}
+.bulk-select-all-label:focus-within{
+  border-color:var(--accent);
+  outline:2px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  outline-offset:2px;
+}
+.bulk-select-all-label[hidden]{display:none}
+.bulk-select-all-label input{
+  position:absolute;opacity:0;width:0;height:0;pointer-events:none;
+}
+
+.bulk-select-all-visual{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;flex:none;
+  border:1.5px solid var(--muted);border-radius:4px;background:var(--panel);
+  transition:background-color .15s,border-color .15s;
+}
+.bulk-select-all-check{
+  width:11px;height:11px;fill:none;stroke:#fff;
+  stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  opacity:0;transform:scale(.6);transition:opacity .15s,transform .15s;
+}
+.bulk-select-all-dash{
+  position:absolute;width:8px;height:2px;border-radius:1px;
+  background:#fff;opacity:0;transition:opacity .15s;
+}
+.bulk-select-all-label input:checked + .bulk-select-all-visual,
+.bulk-select-all-label input:indeterminate + .bulk-select-all-visual{
+  background:var(--danger);border-color:var(--danger);
+}
+.bulk-select-all-label input:checked + .bulk-select-all-visual .bulk-select-all-check{
+  opacity:1;transform:scale(1);
+}
+.bulk-select-all-label input:indeterminate + .bulk-select-all-visual .bulk-select-all-dash{
+  opacity:1;
+}
+
+.bulk-selection-count{
+  display:inline-flex;align-items:center;min-height:26px;padding:0 10px;
+  border-radius:999px;
+  background:var(--danger-soft,color-mix(in srgb,var(--danger) 14%,transparent));
+  color:var(--danger);
+  font-size:11px;font-weight:600;white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.bulk-selection-count[hidden]{display:none}
+
+.bulk-delete-selected-btn span{font-variant-numeric:tabular-nums}
+
+@media (max-width:640px){
+  .bulk-select-all-label{min-height:36px;padding:0 10px;font-size:11px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .bulk-select-all-label,
+  .bulk-select-all-visual,
+  .bulk-select-all-check,
+  .bulk-select-all-dash{transition:none}
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Concepto 1 · Barra flotante de borrado masivo
+   Agrupa "Seleccionar todos" + contador + "Eliminar (N)" en un único
+   contenedor con tinte danger-soft que aparece sólo cuando el modo
+   borrado está activo (#bulkDeleteToggleBtn.is-active). Sin cambios de JS.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Contenedor barra: base invisible (sin relleno/borde) para que cuando el
+   modo borrado está apagado no ocupe estilo aunque algún hijo se muestre. */
+.bulk-delete-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* Apariencia cohesiva de la barra sólo cuando el toggle está activo.
+   Se limita a navegadores con soporte de :has() para degradar con gracia. */
+@supports selector(:has(*)) {
+  .toolbar:has(#bulkDeleteToggleBtn.is-active) .bulk-delete-bar {
+    padding: 6px 7px;
+    border: 1px solid color-mix(in srgb, var(--danger) 26%, var(--line));
+    border-radius: 12px;
+    background: var(--danger-soft);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--danger) 10%, transparent);
+  }
+
+  /* El pill "Seleccionar todos" flota sobre fondo panel dentro de la barra */
+  .bulk-delete-bar .bulk-select-all-label {
+    background: var(--panel);
+    border-color: color-mix(in srgb, var(--danger) 22%, var(--line));
+  }
+  .bulk-delete-bar .bulk-select-all-label:hover {
+    background: var(--surface);
+    border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  }
+
+  /* El contador usa un relleno danger translúcido para no repetir danger-soft */
+  .bulk-delete-bar .bulk-selection-count {
+    background: color-mix(in srgb, var(--danger) 16%, transparent);
+  }
+
+  /* Botón Eliminar dentro de la barra: refuerza peso danger */
+  .bulk-delete-bar .bulk-delete-selected-btn {
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--danger) 24%, transparent);
+  }
+}
+
+/* Toggle activo: rojo sólido + leve sombra (mantiene el !important del override base) */
+#bulkDeleteToggleBtn.is-active {
+  background: var(--danger) !important;
+  border-color: var(--danger) !important;
+  color: #fff !important;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--danger) 40%, transparent);
+}
+#bulkDeleteToggleBtn.is-active svg { stroke: #fff; }
+
+/* Filas seleccionadas: tinte danger-soft + franja izquierda danger en la
+   primera celda (más scannable que sólo fondo). Especificidad #userRows
+   supera al override inline de index.html. */
+#userRows tr.bulk-delete-selected {
+  background: var(--danger-soft);
+}
+#userRows tr.bulk-delete-selected td:first-child {
+  box-shadow: inset 3px 0 0 var(--danger);
+}
+#userRows tr.bulk-delete-selected td {
+  border-color: color-mix(in srgb, var(--danger) 18%, transparent);
+}
+
+/* Responsive: la barra ocupa todo el ancho en móvil y empuja Eliminar al final */
+@media (max-width: 1000px) {
+  @supports selector(:has(*)) {
+    .toolbar:has(#bulkDeleteToggleBtn.is-active) .bulk-delete-bar {
+      width: 100%;
+      flex: 1 1 100%;
+      justify-content: space-between;
+      padding: 8px;
+    }
+    .bulk-delete-bar .bulk-delete-selected-btn {
+      margin-left: auto;
+    }
+  }
+}
+@media (max-width: 480px) {
+  @supports selector(:has(*)) {
+    .toolbar:has(#bulkDeleteToggleBtn.is-active) .bulk-delete-bar {
+      border-radius: 10px;
+      gap: 6px;
+    }
+    .bulk-delete-bar .bulk-select-all-label {
+      min-height: 34px;
+      padding: 0 10px;
+      font-size: 11px;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #bulkDeleteToggleBtn.is-active,
+  .bulk-delete-bar,
+  .bulk-delete-bar *,
+  #userRows tr.bulk-delete-selected { transition: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Concepto 3 · Modal de confirmación de borrado rediseñado
+   Header con icono de peligro en círculo + kicker danger, mensaje-contador
+   como pill prominente, advertencia con icono, campo de contraseña con
+   focus ring danger, y footer con acción sólida. Scoped bajo
+   #bulkDeleteConfirmBackdrop (especificidad ID) para no tocar el resto.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Backdrop con efecto "frosted glass" aplicado a TODOS los modales del panel:
+   blur + saturate sobre el overlay semitransparente base (.modal-backdrop
+   #10151c66) para que el contenido se vea desenfocado detrás del diálogo.
+   Degradación graceful: navegadores sin soporte de backdrop-filter muestran
+   el overlay oscuro plano. */
+.modal-backdrop {
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog {
+  border-top: 3px solid var(--danger);
+}
+
+/* Header */
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-head {
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-kicker {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog h2 {
+  font-size: 18px;
+  line-height: 1.25;
+}
+/* El mensaje "Se eliminarán N cliente(s)." → pill-contador prominente */
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-msg {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 22%, transparent);
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-msg:empty { display: none; }
+
+/* Body */
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: var(--radius);
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 28%, transparent);
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-warning svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  margin-top: 1px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-warning span {
+  color: var(--danger);
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-field .input {
+  height: 42px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-field .input:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 18%, transparent);
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-bio {
+  height: 40px;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-error {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 500;
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-error[hidden] { display: none; }
+
+/* Footer */
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-actions {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+#bulkDeleteConfirmBackdrop .bulk-delete-dialog-actions .danger-btn {
+  min-width: 130px;
+}
+
+/* Responsive del modal */
+@media (max-width: 480px) {
+  #bulkDeleteConfirmBackdrop .bulk-delete-dialog-head { gap: 12px; }
+  #bulkDeleteConfirmBackdrop .bulk-delete-dialog-icon { width: 40px; height: 40px; }
+  #bulkDeleteConfirmBackdrop .bulk-delete-dialog h2 { font-size: 16px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Scroll horizontal del rail de licencias en móvil (touch)
+   Los tabs tenían `touch-action: pan-y` (styles.css líneas 5153 y 7623) para
+   permitir el drag-to-reorder vía touch: eso captura el gesto horizontal y se
+   lo pasa al JS, lo que BLOQUEA el desplazamiento nativo del rail. Consecuencia:
+   no se podían ver las licencias nuevas en móvil (quedaban fuera de pantalla).
+
+   pan-x pan-y devuelve AMBOS ejes al navegador → el rail se desliza con el dedo
+   y la página sigue haciendo scroll vertical. Contrapartida: el reorder por
+   arrastre deja de funcionar en táctil (sigue funcionando en escritorio con
+   ratón, ya que touch-action no afecta a los mouse events).
+   Especificidad con #ID para superar a las reglas base por clase.
+   ════════════════════════════════════════════════════════════════════════════ */
+#masterTabs [data-master-license],
+#tabs .tab[data-license] {
+  touch-action: pan-x pan-y;
+}
+
+/* Momentum scroll en iOS antiguos para ambos rails de licencias */
+#masterTabs,
+#tabs {
+  -webkit-overflow-scrolling: touch;
+}

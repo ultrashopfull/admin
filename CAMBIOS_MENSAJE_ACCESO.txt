@@ -1,0 +1,51 @@
+ULTRASHOP — PERSISTENCIA GLOBAL DEL MENSAJE DE ACCESO
+
+INSTALACIÓN (para esta actualización, seguir estas instrucciones):
+1. En Supabase > SQL Editor > New query, ejecutar el archivo
+   supabase/setup/persistencia_mensaje.sql (también entregado por separado).
+   Si falta la RPC de sincronización, revisar e instalar primero el SQL
+   sincronizacion_panel.sql incluido en la carpeta setup. No ejecutar
+   consolidar_datos.sql ni reconstruir las tablas para este cambio.
+2. Si la función admin desplegada ya admite panel_sync, panel_action y
+   settings.save, no hace falta desplegar funciones nuevas. Si no admite
+   esas rutas, revisar y desplegar la función admin incluida en
+   supabase/functions/admin/ (index.ts importa source/index.ts).
+   Conservar configuración JWT y secretos del proyecto. No cambiar login
+   ni verificar-estado para esta actualización.
+3. Publicar el contenido de admin-main en el sitio actual, conservando
+   su estructura; publicar index.html después de los recursos. No crear
+   una segunda carpeta admin-main dentro de la raíz web existente.
+4. Recargar el navegador (Ctrl+F5). Si se utiliza PWA, cerrarla y volver
+   a abrirla con conexión para que actualice la caché.
+5. Iniciar sesión como administrador; mantener pulsado Copiar o WhatsApp
+   durante 4 segundos, editar y Guardar. Debe aparecer «Mensaje global
+   guardado y verificado». Probar ambos botones en dos clientes distintos,
+   recargar, cerrar sesión y volver a entrar, y probar otro dispositivo.
+   Para restaurar el mensaje original, dejar vacío el campo y Guardar.
+
+DISEÑO
+- Una sola plantilla global para todos los clientes y licencias.
+- Fuente de verdad: public.ultrashop_panel_state.settings, clave
+  accessMessageTemplate. null = plantilla predeterminada integrada.
+- El navegador envía settings.save mediante panel_action; la RPC existente
+  combina el JSON con las preferencias guardadas. Después lee panel_sync
+  y verifica el valor antes de confirmar el guardado y cerrar el modal.
+- No se modifica clientes.mensaje ni se migran automáticamente mensajes
+  individuales antiguos: no se elige arbitrariamente uno de ellos.
+- LICENCIA es opcional: se puede usar el nombre automático o texto fijo
+  global. CORREO, CONTRASENA, FECHA_FINAL y DURACION son obligatorios.
+  Los dos enlaces son opcionales. No colocar contraseñas fijas
+  ni datos individuales en una plantilla que se comparte globalmente.
+- Solo administradores editan. Vendedores autorizados utilizan el mensaje
+  común en las licencias que pueden gestionar. Sin conexión o con API antigua,
+  no se anuncia un guardado falso.
+- Se conserva el diseño, el texto predeterminado, las variables, los botones,
+  la URL de Supabase y la lógica de los demás módulos.
+
+PRUEBAS REALIZADAS
+- node --check en los JS modificados y el service worker.
+- Pruebas aisladas con las funciones JS reales y una API simulada: guardado,
+  lectura, igualdad Copiar/WhatsApp, dos licencias, nueva sesión, restauración,
+  rechazo de confirmación falsa, validación, permisos y API anterior.
+- No se ejecutó el SQL ni se probó el despliegue contra Supabase en producción.
+  La comprobación definitiva requiere ejecutar los pasos anteriores.

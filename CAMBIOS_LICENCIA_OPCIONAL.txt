@@ -1,0 +1,11 @@
+ULTRASHOP — LICENCIA OPCIONAL EN PLANTILLA GLOBAL
+1. Ejecutar supabase/setup/persistencia_mensaje.sql en Supabase SQL Editor.
+   Sustituye la restricción existente; no elimina plantillas ni clientes.
+2. Publicar el contenido de admin-main en el repositorio admin.
+3. Recargar. Editar desde Copiar o WhatsApp manteniendo pulsado 4 segundos.
+4. Usar {{LICENCIA}} para nombre automático o reemplazar por texto fijo.
+   El texto fijo se aplica a TODOS los productos. No es una plantilla por producto.
+5. Conservar {{CORREO}}, {{CONTRASENA}}, {{FECHA_FINAL}}, {{DURACION}}.
+Se conserva el tema rápido, la persistencia global y el manifest standalone
+indicado anteriormente. No modifica el repositorio raíz de assetlinks.
+SQL no ejecutado en producción; comprobar guardado y recarga en el panel.

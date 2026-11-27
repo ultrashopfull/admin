@@ -1,0 +1,51 @@
+ULTRASHOP — BAJA LÓGICA DE USUARIOS Y CONSERVACIÓN DE AUTORÍA
+==============================================================
+
+OBJETIVO
+Al eliminar un usuario, el sistema retira su acceso pero NO elimina su fila de
+public.usuarios ni registros asociados. Clientes, suscripciones, ventas,
+operaciones y demás registros conservan sus identificadores y referencias.
+En los clientes, el administrador verá, por ejemplo:
+  Creado por: Juan (usuario eliminado)
+
+CAMBIO DE BASE DE DATOS
+1. Abre Supabase > SQL Editor.
+2. Ejecuta el archivo:
+     supabase/setup/baja_logica_usuarios.sql
+3. El script crea la función ultrashop_staff_soft_delete. Es repetible.
+   Solo service_role puede ejecutarla.
+
+CAMBIO DE EDGE FUNCTION
+Publica la función admin con el archivo actualizado:
+  supabase/functions/admin/index.ts
+El código fuente idéntico también está en:
+  supabase/functions/admin/source/index.ts
+No publiques únicamente el archivo web: la operación debe quedar protegida
+por la Edge Function y la función SQL.
+
+CAMBIO DEL PANEL WEB
+Publica los recursos actualizados de este ZIP, en especial:
+  index.html
+  js/01-panel.js
+  js/15-sync-actions-migfix.js
+  css/panel.css
+Después de ejecutar tools/generar_estilos.py y tools/versionar_recursos.py,
+publica el resto de recursos y, al final, index.html.
+
+COMPORTAMIENTO
+- El usuario se marca active=false y deleted=true en staff_meta.
+- Se conserva la fila de usuarios para respetar sus claves foráneas.
+- Se conserva el nombre histórico del creador en deletedName.
+- El login rechaza al usuario porque su acceso queda desactivado.
+- Se elimina la contraseña en texto plano del usuario archivado.
+- No se permite dar de baja al último administrador activo.
+- El panel administrativo muestra el usuario como eliminado y no permite
+  editarlo ni reactivarlo desde la lista.
+- Los registros asociados no se borran, reasignan ni modifican.
+- La operación SQL es idempotente para que un reintento por pérdida de red
+  no duplique la baja.
+
+IMPORTANTE
+Esta actualización prepara la aplicación y la migración, pero no ejecuta
+cambios en tu proyecto Supabase remoto. Debes aplicar el SQL y desplegar la
+Edge Function antes de utilizar la nueva eliminación en producción.
